@@ -1,16 +1,113 @@
-## Hi there 👋
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=GBK">
+    <script type="text/javascript" async="" src="./temp_files/ga.js"></script><script type="text/javascript" async="" src="./temp_files/ga(1).js"></script><script src="./temp_files/jquery-1.4.2.min.js" type="text/javascript"></script>
+    <script src="./temp_files/shortcut.js" type="text/javascript"></script>
+    <title>优爱钢琴网-音乐速度测试工具</title>
+    <meta name="description" content="通过这个工具来确定一首歌的节拍速度">
+    <meta name="keywords" content="BPM,节拍速度测试,BPM测试,歌曲测速">
+    <link href="./temp_files/styles.css" type="text/css" rel="stylesheet">
 
-<!--
-**aiyuepu/aiyuepu** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+    <script type="text/javascript">
+        var startTime = null;
+        var currentBeats = 0;
 
-Here are some ideas to get you started:
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+
+        /*
+        $(window).keypress(function(event) {
+            var spaceBarKey = 32;
+            var lowerXKey = 120;
+            var upperXKey = 88;
+
+            var result = true;
+
+            var keyCode = event.which;
+
+            //if (!(event.which == 115 && event.ctrlKey)) return true;
+                //alert(keyCode);
+
+            if (keyCode == spaceBarKey) {
+                handleNewBeat();
+                result = false;
+            } else if ((keyCode == lowerXKey) || (keyCode == upperXKey)) {
+                handleBeat();
+                result = false;
+            }
+
+            if (!result) {
+                event.preventDefault();
+            }
+            return result;
+        });
+        */
+
+        function handleNewBeat() {
+            if (currentBeats == 0) {
+                startTime = new Date();
+            }
+            currentBeats++;
+            updateBpm();
+        }
+
+        function handleReset() {
+            startTime = null;
+            currentBeats = 0;
+            updateBpm();
+        }
+
+        function updateBpm() {
+            var value = '&nbsp;';
+            var title = 'BPM';
+            if (currentBeats > 1) {
+                var now = new Date();
+                var miliseconds = now.getTime() - startTime.getTime();
+                var minutes = miliseconds / 60000.0;
+                var bpm = (currentBeats - 1) / minutes;
+                value = bpm.toFixed(2);
+                title = 'BPM (' + currentBeats.toString() + ' 次)';
+            } else if (currentBeats == 1) {
+                title = 'BPM (1 次)';
+            }
+            $('#divBpm').html(value); 
+            $('#divBpmTitle').html(title);
+        }
+
+        shortcut.add(" ",function() {
+            handleNewBeat();
+        });
+        shortcut.add("x",function() {
+            handleReset();
+        });
+        shortcut.add("Shift+x",function() {
+            handleReset();
+        });
+
+    </script>
+    <script type="text/javascript">
+
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-19061338-3']);
+      _gaq.push(['_trackPageview']);
+
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    </script>
+
+
+<style type="text/css">
+
+</style></head>
+<body>
+    <div id="divMain">
+
+        <h1>BPM节拍速度测试</h1>
+
+        <p> 本软件通过您按下空格键来测速，例如一边听鼓点，一边按空格键。</p>
+        <p> <strong>按键说明：按下“空格键”测速 按下"X"键清空</strong></p>
+        <div id="divBpmTitle">BPM (节拍)</div>
+        <div id="divBpm">&nbsp;</div>
+</div>
+
+</body></html>
